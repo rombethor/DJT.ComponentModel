@@ -19,6 +19,11 @@ namespace DJT.ComponentModel.Results
         BadRequest = 400,
 
         /// <summary>
+        /// The request was forbidden
+        /// </summary>
+        Forbidden = 403,
+
+        /// <summary>
         /// The requested resource was not found
         /// </summary>
         NotFound = 404,

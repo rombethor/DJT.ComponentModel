@@ -17,6 +17,18 @@ namespace DJT.ComponentModel.Results
         /// </summary>
         public AResult() { }
 
+        /// <summary>
+        /// Create a copy result
+        /// </summary>
+        /// <param name="result"></param>
+        public AResult(IResult result)
+        {
+            _body = result.Body;
+            _code = result.State;
+            _message = result.Message;
+            _validationResults = result.ValidationResults;
+        }
+
         public AResult(ResultCode state, string message = "", object? body = null, IEnumerable<ValidationResult>? validationResults = null)
         {
             _code = state;

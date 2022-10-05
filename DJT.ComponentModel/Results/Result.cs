@@ -11,7 +11,7 @@ namespace DJT.ComponentModel.Results
     /// A typed result
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Result<T> : AResult, IResult<T>
+    public class Result<T> : AResult, IResult
     {
         /// <summary>
         /// Create a new typed result from data
@@ -46,12 +46,38 @@ namespace DJT.ComponentModel.Results
         /// </summary>
         /// <param name="reply"></param>
         public static implicit operator Result<T>(Result reply) => new Result<T>(reply);
+
+        /// <summary>
+        /// Implicit conversion from typed result to plain result
+        /// </summary>
+        /// <param name="r"></param>
+        public static implicit operator Result(Result<T> r) => new Result(r);
     }
 
+    /// <summary>
+    /// A wrapper for repository pattern responses, indicating a state
+    /// and containing the data and/or validation data.
+    /// </summary>
     public class Result : AResult, IResult
     {
+        /// <summary>
+        /// Create this result as a copy of another
+        /// </summary>
+        /// <param name="result"></param>
+        public Result(IResult result) : base(result) { }
+
+        /// <summary>
+        /// Create a blank result
+        /// </summary>
         public Result() { }
 
+        /// <summary>
+        /// Create a result via parameters
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="message"></param>
+        /// <param name="body"></param>
+        /// <param name="validationResults"></param>
         public Result(ResultCode state, string message = "", object? body = null, IEnumerable<ValidationResult>? validationResults = null)
         {
             _code = state;
@@ -66,38 +92,77 @@ namespace DJT.ComponentModel.Results
             }
         }
 
-        //protected ResultCode _code;
-        //protected string _message = string.Empty;
-        //protected object? _body = null;
-        //protected IEnumerable<ValidationResult> _validationResults = Array.Empty<ValidationResult>();
-
-        //public ResultCode State => _code;
-        //public string Message => _message;
-        //public object? Body => _body;
-        //public IEnumerable<ValidationResult> ValidationResults => _validationResults;
-
-        public static IResult Success()
+        
+        /// <summary>
+        /// Create a blank successful result
+        /// </summary>
+        /// <returns></returns>
+        public static Result Success()
             => new Result(ResultCode.Success, "OK");
 
-        public static IResult Success(object body)
+        /// <summary>
+        /// Create a successful result with data
+        /// </summary>
+        /// <param name="body">The boxed data to include in the result</param>
+        /// <returns></returns>
+        public static Result Success(object body)
             => new Result(ResultCode.Success, "OK", body);
 
-        public static IResult<T> Success<T>(T body)
-            => new Result<T>(body);
+        /// <summary>
+        /// Create a typed successful result
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public static Result<T> Success<T>(T body)
+            => new Result<T>(body, ResultCode.Success);
 
-        public static IResult NotFound(string message = "")
+        /// <summary>
+        /// Create a result for resource not found
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static Result NotFound(string message = "")
             => new Result(ResultCode.NotFound);
 
-        public static IResult BadRequest(string message = "")
+        /// <summary>
+        /// Create a result for a forbidden request
+        /// </summary>
+        /// <returns></returns>
+        public static Result Forbidden()
+            => new Result(ResultCode.Forbidden);
+
+        /// <summary>
+        /// Create a result for invalid requests
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static Result BadRequest(string message = "")
             => new Result(ResultCode.BadRequest);
 
-        public static IResult BadRequest(IEnumerable<ValidationResult> validationResults, string message = "")
+        /// <summary>
+        /// Create a result for invalid requests, including validation results.
+        /// </summary>
+        /// <param name="validationResults"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static Result BadRequest(IEnumerable<ValidationResult> validationResults, string message = "")
             => new Result(ResultCode.BadRequest, message, null, validationResults);
 
-        public static IResult Conflict(string message = "")
+        /// <summary>
+        /// Create a result for requests failing due to a conflict of resources
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static Result Conflict(string message = "") 
             => new Result(ResultCode.Conflict, message);
 
-        public static IResult Error(string message)
+        /// <summary>
+        /// Create a result for error encountered in the application
+        /// </summary>
+        /// <param name="message">A descriptive message</param>
+        /// <returns></returns>
+        public static Result Error(string message)
             => new Result(ResultCode.Error, message);
     }
 }
