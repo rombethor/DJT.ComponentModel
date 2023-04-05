@@ -12,7 +12,7 @@ namespace DJT.ComponentModel.DataAnnotations
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter,
         AllowMultiple = false)]
-    internal class UrlOrEmptyAttribute : DataTypeAttribute
+    public class UrlOrEmptyAttribute : DataTypeAttribute
     {
         string[] protocols = { "https" };
 
