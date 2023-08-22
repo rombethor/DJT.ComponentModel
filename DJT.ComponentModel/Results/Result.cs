@@ -14,6 +14,11 @@ namespace DJT.ComponentModel.Results
     public class Result<T> : AResult, IResult
     {
         /// <summary>
+        /// Empty constructor necessary for deserialisation
+        /// </summary>
+        public Result() {}
+
+        /// <summary>
         /// Create a new typed result from data
         /// </summary>
         /// <param name="data"></param>
