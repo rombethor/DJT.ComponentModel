@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>6.2.3</Version>
+    <Version>6.3.1</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Daniel James Thorne</Authors>
     <Description>Additions to the .Net component model, such as datetime annotations, page model, result models and validation extensions</Description>
