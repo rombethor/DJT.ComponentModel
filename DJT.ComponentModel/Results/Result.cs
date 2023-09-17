@@ -44,7 +44,11 @@ namespace DJT.ComponentModel.Results
         /// <summary>
         /// Resulting data
         /// </summary>
-        public T? Data => _body == null ? default : (T)_body;
+        public T? Data
+        {
+            get => _body == null ? default : (T)_body;
+            set {  _body = value; }
+        }
 
         /// <summary>
         /// Implicit conversion from Result to typed Result
